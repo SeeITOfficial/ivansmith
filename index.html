@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graduation Invite Generator — Ivan & Jesca 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  min-height:100vh;
+  background:#07101f;
+  color:#e8d5a3;
+  font-family:'Lato',sans-serif;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:2rem 1rem;
+  position:relative;
+  overflow-x:hidden;
+}
+.bg-glow{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(ellipse at 20% 20%, #c9a84c0a 0%, transparent 60%),
+             radial-gradient(ellipse at 80% 80%, #1a3a6a0f 0%, transparent 60%);
+  pointer-events:none;
+}
+.stars{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;overflow:hidden;}
+.star{
+  position:absolute;width:1.5px;height:1.5px;background:#c9a84c;border-radius:50%;
+  animation:twinkle var(--d) var(--delay) ease-in-out infinite;
+}
+@keyframes twinkle{0%,100%{opacity:0}50%{opacity:var(--op)}}
+
+.wrap{
+  position:relative;z-index:1;
+  width:100%;max-width:520px;
+  animation:fadeUp 0.8s ease forwards;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.header{text-align:center;margin-bottom:3rem;}
+.header-icon{margin-bottom:1.2rem;}
+.header h1{
+  font-family:'Cinzel',serif;
+  font-size:1.1rem;
+  font-weight:700;
+  color:#c9a84c;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  margin-bottom:0.5rem;
+}
+.header p{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;
+  font-style:italic;
+  color:#5a6a88;
+  letter-spacing:0.08em;
+}
+.header .names{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.25rem;
+  font-weight:600;
+  color:#e8d5a3;
+  letter-spacing:0.06em;
+  margin-top:0.3rem;
+}
+
+.card{
+  background:#0d1528;
+  border:1px solid #c9a84c33;
+  padding:2.5rem 2rem;
+  position:relative;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,#c9a84c,#f0d070,#c9a84c,transparent);
+}
+.corner{position:absolute;width:24px;height:24px;}
+.corner.tl{top:10px;left:10px;border-top:1px solid #c9a84c55;border-left:1px solid #c9a84c55;}
+.corner.tr{top:10px;right:10px;border-top:1px solid #c9a84c55;border-right:1px solid #c9a84c55;}
+.corner.bl{bottom:10px;left:10px;border-bottom:1px solid #c9a84c55;border-left:1px solid #c9a84c55;}
+.corner.br{bottom:10px;right:10px;border-bottom:1px solid #c9a84c55;border-right:1px solid #c9a84c55;}
+
+.field-label{
+  font-family:'Cinzel',serif;
+  font-size:0.65rem;
+  color:#c9a84c;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  margin-bottom:0.7rem;
+  display:block;
+}
+.name-input{
+  width:100%;
+  background:transparent;
+  border:none;
+  border-bottom:1px solid #c9a84c44;
+  color:#e8d5a3;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;
+  font-weight:300;
+  padding:0.5rem 0;
+  outline:none;
+  letter-spacing:0.05em;
+  transition:border-color 0.3s;
+}
+.name-input:focus{border-bottom-color:#c9a84c;}
+.name-input::placeholder{color:#2a3a58;font-style:italic;}
+
+.gen-btn{
+  width:100%;
+  margin-top:2rem;
+  background:linear-gradient(135deg,#c9a84c,#e8d080,#c9a84c);
+  background-size:200% 100%;
+  border:none;
+  color:#07101f;
+  font-family:'Cinzel',serif;
+  font-size:0.8rem;
+  font-weight:700;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  padding:1rem;
+  cursor:pointer;
+  transition:background-position 0.4s, opacity 0.2s;
+}
+.gen-btn:hover{background-position:100% 0;opacity:0.9;}
+.gen-btn:active{transform:scale(0.99);}
+
+.result-box{
+  margin-top:2rem;
+  background:#060e1c;
+  border:1px solid #c9a84c22;
+  padding:1.5rem;
+  display:none;
+  animation:fadeIn 0.5s ease forwards;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+.result-box.show{display:block;}
+.result-label{
+  font-family:'Cinzel',serif;
+  font-size:0.6rem;
+  color:#5a6a88;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  margin-bottom:0.6rem;
+}
+.link-display{
+  font-family:'Lato',sans-serif;
+  font-size:0.78rem;
+  font-weight:300;
+  color:#8a9ab5;
+  word-break:break-all;
+  line-height:1.6;
+  margin-bottom:1rem;
+  padding:0.6rem;
+  background:#0a1020;
+  border:1px solid #c9a84c22;
+}
+.guest-confirm{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;
+  font-style:italic;
+  color:#c9a84c;
+  text-align:center;
+  margin-bottom:1rem;
+  letter-spacing:0.05em;
+}
+
+.btn-row{display:flex;gap:0.8rem;flex-wrap:wrap;}
+
+.action-btn{
+  flex:1;min-width:120px;
+  background:transparent;
+  border:1px solid #c9a84c44;
+  color:#c9a84c;
+  font-family:'Cinzel',serif;
+  font-size:0.65rem;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  padding:0.75rem 0.5rem;
+  cursor:pointer;
+  transition:background 0.2s, color 0.2s;
+}
+.action-btn:hover{background:#c9a84c;color:#07101f;}
+.action-btn.primary{background:#c9a84c22;border-color:#c9a84c88;}
+
+.history{margin-top:2.5rem;}
+.history-title{
+  font-family:'Cinzel',serif;
+  font-size:0.6rem;
+  color:#3a4a6a;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  margin-bottom:1rem;
+  text-align:center;
+}
+.history-list{display:flex;flex-direction:column;gap:0.5rem;}
+.history-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0.6rem 0.8rem;
+  background:#0a1020;
+  border:1px solid #c9a84c11;
+  cursor:pointer;
+  transition:border-color 0.2s;
+}
+.history-item:hover{border-color:#c9a84c33;}
+.history-item .hname{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.95rem;
+  color:#e8d5a3;
+  letter-spacing:0.04em;
+}
+.history-item .hcopy{
+  font-family:'Cinzel',serif;
+  font-size:0.55rem;
+  color:#c9a84c;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+}
+.copied-toast{
+  position:fixed;
+  bottom:2rem;left:50%;transform:translateX(-50%);
+  background:#c9a84c;
+  color:#07101f;
+  font-family:'Cinzel',serif;
+  font-size:0.7rem;
+  letter-spacing:0.2em;
+  padding:0.6rem 1.5rem;
+  display:none;
+  animation:toastIn 0.3s ease;
+  z-index:100;
+}
+@keyframes toastIn{from{opacity:0;bottom:1rem}to{opacity:1;bottom:2rem}}
+.copied-toast.show{display:block;}
+
+.footer{
+  margin-top:2rem;
+  text-align:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.8rem;
+  font-style:italic;
+  color:#2a3a58;
+  letter-spacing:0.08em;
+}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="stars" id="stars"></div>
+
+<div class="wrap">
+  <div class="header">
+    <div class="header-icon">
+      <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+        <circle cx="26" cy="26" r="24" stroke="#c9a84c" stroke-width="0.7" opacity="0.4"/>
+        <circle cx="26" cy="26" r="18" stroke="#c9a84c" stroke-width="0.4" opacity="0.2"/>
+        <line x1="26" y1="10" x2="26" y2="42" stroke="#c9a84c" stroke-width="0.8" opacity="0.7"/>
+        <line x1="10" y1="26" x2="42" y2="26" stroke="#c9a84c" stroke-width="0.8" opacity="0.7"/>
+        <circle cx="26" cy="26" r="3.5" fill="#c9a84c" opacity="0.6"/>
+        <path d="M26 10 Q33 18 33 26 Q33 34 26 42 Q19 34 19 26 Q19 18 26 10Z" stroke="#c9a84c" stroke-width="0.5" fill="none" opacity="0.25"/>
+      </svg>
+    </div>
+    <h1>Invitation Generator</h1>
+    <p>Graduation Ceremony · 20th June 2026</p>
+    <p class="names">Dr. Nsimbe Ivan Smith &amp; Tr. Nazimuli Jesca</p>
+  </div>
+
+  <div class="card">
+    <div class="corner tl"></div><div class="corner tr"></div>
+    <div class="corner bl"></div><div class="corner br"></div>
+
+    <label class="field-label" for="guestName">Guest Full Name</label>
+    <input class="name-input" id="guestName" type="text" placeholder="e.g. Dr. Robert Ssebuwufu" autocomplete="off" />
+
+    <button class="gen-btn" onclick="generate()">Generate Invitation Link</button>
+
+    <div class="result-box" id="resultBox">
+      <p class="result-label">Invitation Ready For</p>
+      <p class="guest-confirm" id="guestConfirm"></p>
+      <div class="link-display" id="linkDisplay"></div>
+      <div class="btn-row">
+        <button class="action-btn primary" onclick="copyLink()">Copy Link</button>
+        <button class="action-btn" onclick="shareLink()">Share via WhatsApp / SMS</button>
+        <button class="action-btn" onclick="previewInvite()">Preview</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="history" id="historySection" style="display:none;">
+    <p class="history-title">— Previously Generated —</p>
+    <div class="history-list" id="historyList"></div>
+  </div>
+
+  <p class="footer">"Not to us, O Lord, not to us, but to your name give glory" — Ps 115:1</p>
+</div>
+
+<div class="copied-toast" id="toast">LINK COPIED</div>
+
+<script>
+  (function(){
+    const s=document.getElementById('stars');
+    for(let i=0;i<55;i++){
+      const el=document.createElement('div');
+      el.className='star';
+      el.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${3+Math.random()*5}s;--delay:${Math.random()*7}s;--op:${0.15+Math.random()*0.45}`;
+      s.appendChild(el);
+    }
+  })();
+
+  let currentLink='';
+
+  function generate(){
+    const name=document.getElementById('guestName').value.trim();
+    if(!name){document.getElementById('guestName').focus();return;}
+
+    const base=window.location.origin+window.location.pathname.replace('index.html','');
+    const link=base+'invite.html?g='+encodeURIComponent(name);
+    currentLink=link;
+
+    document.getElementById('guestConfirm').textContent=name;
+    document.getElementById('linkDisplay').textContent=link;
+    document.getElementById('resultBox').classList.add('show');
+
+    saveHistory(name,link);
+    renderHistory();
+  }
+
+  document.getElementById('guestName').addEventListener('keydown',e=>{
+    if(e.key==='Enter') generate();
+  });
+
+  function copyLink(){
+    navigator.clipboard.writeText(currentLink).then(()=>showToast('LINK COPIED')).catch(()=>{
+      const ta=document.createElement('textarea');
+      ta.value=currentLink;document.body.appendChild(ta);ta.select();
+      document.execCommand('copy');document.body.removeChild(ta);
+      showToast('LINK COPIED');
+    });
+  }
+
+  function shareLink(){
+    const name=document.getElementById('guestName').value.trim();
+    const msg=`Dear ${name},\n\nYou are warmly invited to the Graduation Celebration of *Dr. Nsimbe Ivan Smith* and *Tr. Nazimuli Jesca* on *20th June 2026* at *Adonai Guest House, Muyenga* (1:00 PM – 6:00 PM).\n\nOpen your personal invitation below:\n${currentLink}`;
+    if(navigator.share){
+      navigator.share({title:'Graduation Invitation',text:msg,url:currentLink});
+    } else {
+      const wa='https://wa.me/?text='+encodeURIComponent(msg);
+      window.open(wa,'_blank');
+    }
+  }
+
+  function previewInvite(){
+    window.open(currentLink,'_blank');
+  }
+
+  function showToast(msg){
+    const t=document.getElementById('toast');
+    t.textContent=msg;t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),2000);
+  }
+
+  function saveHistory(name,link){
+    let h=JSON.parse(localStorage.getItem('grad_history')||'[]');
+    h=h.filter(x=>x.name!==name);
+    h.unshift({name,link,ts:Date.now()});
+    if(h.length>15) h=h.slice(0,15);
+    localStorage.setItem('grad_history',JSON.stringify(h));
+  }
+
+  function renderHistory(){
+    const h=JSON.parse(localStorage.getItem('grad_history')||'[]');
+    const sec=document.getElementById('historySection');
+    const list=document.getElementById('historyList');
+    if(!h.length){sec.style.display='none';return;}
+    sec.style.display='block';
+    list.innerHTML=h.map(x=>`
+      <div class="history-item" onclick="loadGuest('${encodeURIComponent(x.name)}','${encodeURIComponent(x.link)}')">
+        <span class="hname">${x.name}</span>
+        <span class="hcopy">Open ›</span>
+      </div>`).join('');
+  }
+
+  function loadGuest(name,link){
+    const n=decodeURIComponent(name);
+    const l=decodeURIComponent(link);
+    document.getElementById('guestName').value=n;
+    currentLink=l;
+    document.getElementById('guestConfirm').textContent=n;
+    document.getElementById('linkDisplay').textContent=l;
+    document.getElementById('resultBox').classList.add('show');
+  }
+
+  renderHistory();
+</script>
+</body>
+</html>

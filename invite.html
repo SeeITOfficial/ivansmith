@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You're Invited — Graduation 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<meta property="og:title" content="You're Invited — Graduation 2026">
+<meta property="og:description" content="Dr. Nsimbe Ivan Smith & Tr. Nazimuli Jesca — 20th June 2026, Adonai Guest House">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  min-height:100vh;
+  background:#07101f;
+  font-family:'Lato',sans-serif;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:1.5rem 1rem;
+  overflow-x:hidden;
+  position:relative;
+}
+
+.bg-glow{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:
+    radial-gradient(ellipse at 15% 15%, #c9a84c08 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 85%, #1a3a6a0a 0%, transparent 55%);
+  pointer-events:none;
+}
+
+.stars{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;overflow:hidden;}
+.star{
+  position:absolute;width:1.5px;height:1.5px;background:#c9a84c;border-radius:50%;
+  animation:twinkle var(--d) var(--delay) ease-in-out infinite;
+}
+@keyframes twinkle{0%,100%{opacity:0}50%{opacity:var(--op)}}
+
+.scene{
+  position:relative;z-index:1;
+  width:100%;max-width:500px;
+  display:flex;flex-direction:column;align-items:center;
+}
+
+/* ── ENVELOPE ── */
+.env-stage{
+  display:flex;flex-direction:column;align-items:center;
+  gap:1.5rem;
+  animation:fadeIn 1s ease forwards;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.to-line{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:1rem;
+  color:#5a6a88;
+  letter-spacing:0.1em;
+  text-align:center;
+}
+.to-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem;
+  font-weight:600;
+  color:#c9a84c;
+  letter-spacing:0.06em;
+  text-align:center;
+  margin-top:0.2rem;
+}
+
+.env-outer{
+  position:relative;
+  width:340px;height:230px;
+  cursor:pointer;
+  perspective:800px;
+}
+
+.env-body{
+  position:absolute;bottom:0;width:100%;height:195px;
+  background:linear-gradient(180deg,#101e38 0%,#0d1830 100%);
+  border:1px solid #c9a84c33;
+}
+.env-left-tri{
+  position:absolute;bottom:0;left:0;
+  border-bottom:195px solid #0e1a30;
+  border-right:170px solid transparent;
+}
+.env-right-tri{
+  position:absolute;bottom:0;right:0;
+  border-bottom:195px solid #0b1628;
+  border-left:170px solid transparent;
+}
+.env-bottom-tri{
+  position:absolute;bottom:0;left:0;right:0;
+  height:0;
+  border-left:170px solid transparent;
+  border-right:170px solid transparent;
+  border-bottom:105px solid #121e38;
+}
+
+.env-flap-wrap{
+  position:absolute;top:0;left:0;width:100%;
+  transform-origin:top center;
+  transform-style:preserve-3d;
+  transition:transform 1s cubic-bezier(.4,0,.2,1);
+  z-index:10;
+}
+.env-flap-wrap.open{transform:rotateX(-180deg);}
+
+.env-flap{
+  width:0;height:0;
+  border-left:170px solid transparent;
+  border-right:170px solid transparent;
+  border-top:115px solid #0f1c35;
+  filter:drop-shadow(0 3px 8px #00000060);
+}
+
+.env-seal{
+  position:absolute;
+  top:100px;left:50%;transform:translateX(-50%);
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,#b8902e,#f0d070,#b8902e);
+  border:2px solid #07101f;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;color:#07101f;
+  z-index:11;
+  box-shadow:0 0 0 3px #c9a84c33;
+  transition:opacity 0.5s,transform 0.5s;
+}
+
+.env-card-peek{
+  position:absolute;
+  bottom:10px;left:50%;
+  transform:translateX(-50%) translateY(0);
+  width:290px;
+  background:#0d1528;
+  border:1px solid #c9a84c44;
+  padding:0.9rem 1rem;
+  opacity:0;
+  transition:transform 1.3s cubic-bezier(.4,0,.2,1), opacity 0.6s;
+  z-index:5;
+  pointer-events:none;
+  text-align:center;
+}
+.env-card-peek.rising{
+  transform:translateX(-50%) translateY(-210px);
+  opacity:1;
+}
+.peek-grad{
+  font-family:'Cinzel',serif;font-size:0.55rem;color:#c9a84c;letter-spacing:0.25em;margin-bottom:0.4rem;
+}
+.peek-names{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.82rem;color:#8a9ab5;line-height:1.5;
+}
+.peek-date{
+  font-family:'Cinzel',serif;font-size:1.3rem;color:#c9a84c;margin-top:0.3rem;
+}
+.peek-month{
+  font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.2em;color:#8a9ab5;margin-top:0.1rem;
+}
+
+.tap-hint{
+  font-family:'Lato',sans-serif;
+  font-size:0.72rem;
+  font-weight:300;
+  letter-spacing:0.25em;
+  color:#c9a84c66;
+  text-transform:uppercase;
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:0.35}50%{opacity:1}}
+
+/* ── FULL CARD ── */
+.full-card{
+  display:none;
+  width:100%;
+  max-width:480px;
+  animation:cardReveal 1s ease forwards;
+}
+.full-card.visible{display:block;}
+@keyframes cardReveal{
+  from{opacity:0;transform:translateY(24px) scale(0.98)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+.card-inner{
+  background:#0d1528;
+  border:1px solid #c9a84c44;
+  padding:2.8rem 2.2rem;
+  position:relative;
+  overflow:hidden;
+}
+.card-inner::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,#c9a84c,#f0d070,#c9a84c,transparent);
+}
+.card-inner::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,#c9a84c,#f0d070,#c9a84c,transparent);
+}
+.c{position:absolute;width:26px;height:26px;}
+.c.tl{top:10px;left:10px;border-top:1px solid #c9a84c55;border-left:1px solid #c9a84c55;}
+.c.tr{top:10px;right:10px;border-top:1px solid #c9a84c55;border-right:1px solid #c9a84c55;}
+.c.bl{bottom:10px;left:10px;border-bottom:1px solid #c9a84c55;border-left:1px solid #c9a84c55;}
+.c.br{bottom:10px;right:10px;border-bottom:1px solid #c9a84c55;border-right:1px solid #c9a84c55;}
+
+.medical-badge{
+  text-align:center;margin-bottom:1.2rem;
+}
+
+.sub-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.88rem;
+  font-weight:300;
+  color:#6a7a98;
+  text-align:center;
+  letter-spacing:0.1em;
+  line-height:1.7;
+}
+.sub-text strong{color:#c9a84c;font-weight:400;}
+
+.divider{
+  text-align:center;
+  margin:1rem 0;
+  color:#c9a84c33;
+  font-size:0.6rem;
+  letter-spacing:0.6em;
+}
+
+.welcome-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.95rem;
+  font-weight:300;
+  color:#6a7a98;
+  text-align:center;
+  letter-spacing:0.08em;
+  margin-bottom:0.3rem;
+}
+.celebrate-text{
+  font-family:'Cinzel',serif;
+  font-size:1.3rem;
+  font-weight:700;
+  color:#c9a84c;
+  text-align:center;
+  letter-spacing:0.18em;
+  margin-bottom:0.2rem;
+}
+.of-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.9rem;
+  font-style:italic;
+  color:#4a5a78;
+  text-align:center;
+  margin-bottom:1.8rem;
+}
+
+.grad-block{text-align:center;margin-bottom:0.8rem;}
+.grad-name{
+  font-family:'Cinzel',serif;
+  font-size:1rem;
+  font-weight:700;
+  color:#e8d5a3;
+  letter-spacing:0.1em;
+}
+.grad-deg{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.88rem;
+  font-style:italic;
+  font-weight:300;
+  color:#c9a84c;
+  letter-spacing:0.05em;
+  margin-top:0.15rem;
+}
+.and-sep{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.05rem;
+  font-style:italic;
+  color:#2e3e60;
+  text-align:center;
+  margin:0.5rem 0;
+}
+
+.date-section{
+  text-align:center;
+  margin:1.8rem 0 1.5rem;
+  position:relative;
+  padding:1.2rem 0;
+}
+.date-section::before,.date-section::after{
+  content:'';position:absolute;left:15%;right:15%;height:1px;
+  background:linear-gradient(90deg,transparent,#c9a84c44,transparent);
+}
+.date-section::before{top:0;}.date-section::after{bottom:0;}
+
+.join-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.75rem;
+  font-style:italic;
+  color:#3a4a68;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  margin-bottom:0.4rem;
+}
+.date-big{
+  font-family:'Cinzel',serif;
+  font-size:4rem;
+  font-weight:700;
+  color:#c9a84c;
+  line-height:1;
+  letter-spacing:0.05em;
+}
+.date-month-yr{
+  font-family:'Cinzel',serif;
+  font-size:1rem;
+  color:#e8d5a3;
+  letter-spacing:0.28em;
+  margin-top:0.15rem;
+}
+.date-time{
+  font-family:'Lato',sans-serif;
+  font-size:0.72rem;
+  font-weight:300;
+  color:#6a7a98;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  margin-top:0.5rem;
+}
+
+.venue-section{text-align:center;margin-bottom:1.8rem;}
+.venue-lbl{
+  font-family:'Lato',sans-serif;
+  font-size:0.6rem;
+  font-weight:300;
+  color:#3a4a68;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  margin-bottom:0.25rem;
+}
+.venue-name{
+  font-family:'Cinzel',serif;
+  font-size:0.92rem;
+  color:#e8d5a3;
+  letter-spacing:0.1em;
+}
+
+.verse-block{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.88rem;
+  font-style:italic;
+  font-weight:300;
+  color:#4a5a78;
+  text-align:center;
+  line-height:1.75;
+  margin:1.4rem 0 1.8rem;
+  padding:1rem 1.2rem;
+  border-left:1px solid #c9a84c22;
+  border-right:1px solid #c9a84c22;
+}
+.verse-ref{
+  font-family:'Cinzel',serif;
+  font-size:0.68rem;
+  font-style:normal;
+  color:#2e3e58;
+  letter-spacing:0.18em;
+  display:block;
+  margin-top:0.5rem;
+}
+
+.guest-section{
+  text-align:center;
+  margin-bottom:0.3rem;
+  padding:1rem 0;
+  border-top:1px solid #c9a84c11;
+  border-bottom:1px solid #c9a84c11;
+}
+.guest-lbl{
+  font-family:'Lato',sans-serif;
+  font-size:0.58rem;
+  font-weight:300;
+  color:#2e3e58;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  margin-bottom:0.35rem;
+}
+.guest-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem;
+  font-weight:600;
+  color:#f0d878;
+  letter-spacing:0.07em;
+}
+
+.confirm-section{margin-top:1.8rem;}
+.confirm-lbl{
+  font-family:'Cinzel',serif;
+  font-size:0.65rem;
+  color:#c9a84c;
+  letter-spacing:0.28em;
+  text-align:center;
+  margin-bottom:1rem;
+}
+.contacts{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0.8rem;
+}
+.contact{text-align:center;}
+.con-name{
+  font-family:'Cinzel',serif;
+  font-size:0.65rem;
+  color:#6a7a98;
+  letter-spacing:0.1em;
+  margin-bottom:0.2rem;
+}
+.con-num{
+  font-family:'Lato',sans-serif;
+  font-size:0.8rem;
+  font-weight:300;
+  color:#c9a84c;
+  letter-spacing:0.04em;
+}
+
+.footer-notes{margin-top:1.8rem;text-align:center;}
+.invite-only{
+  font-family:'Cinzel',serif;
+  font-size:0.6rem;
+  letter-spacing:0.38em;
+  color:#2a3a58;
+  text-transform:uppercase;
+  margin-bottom:0.4rem;
+}
+.children-note{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.78rem;
+  font-style:italic;
+  color:#2a3a58;
+}
+
+.no-guest{
+  position:relative;z-index:1;
+  text-align:center;padding:3rem 1rem;
+  animation:fadeIn 0.8s ease forwards;
+}
+.no-guest h2{
+  font-family:'Cinzel',serif;
+  font-size:1.1rem;
+  color:#c9a84c;
+  letter-spacing:0.2em;
+  margin-bottom:0.8rem;
+}
+.no-guest p{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  color:#4a5a78;
+  font-size:1rem;
+}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="stars" id="stars"></div>
+
+<div class="scene" id="scene">
+  <!-- content injected by JS -->
+</div>
+
+<script>
+(function(){
+  const s=document.getElementById('stars');
+  for(let i=0;i<60;i++){
+    const el=document.createElement('div');
+    el.className='star';
+    el.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${3+Math.random()*5}s;--delay:${Math.random()*7}s;--op:${0.15+Math.random()*0.5}`;
+    s.appendChild(el);
+  }
+})();
+
+const params=new URLSearchParams(window.location.search);
+const guest=params.get('g')||'';
+const scene=document.getElementById('scene');
+
+if(!guest){
+  scene.innerHTML=`
+  <div class="no-guest">
+    <h2>Invitation Not Found</h2>
+    <p>This link does not contain a guest name.<br>Please use the personalised link you received.</p>
+  </div>`;
+} else {
+  document.title='You\'re Invited — '+guest+' · Graduation 2026';
+  renderEnvelope(guest);
+}
+
+function renderEnvelope(name){
+  scene.innerHTML=`
+  <div class="env-stage" id="envStage">
+    <div>
+      <p class="to-line">A personal invitation for</p>
+      <p class="to-name">${escHtml(name)}</p>
+    </div>
+    <div class="env-outer" id="envOuter" onclick="openEnv()">
+      <div class="env-body">
+        <div class="env-left-tri"></div>
+        <div class="env-right-tri"></div>
+        <div class="env-bottom-tri"></div>
+        <div class="env-card-peek" id="peekCard">
+          <p class="peek-grad">GRADUATION</p>
+          <p class="peek-names">Dr. Nsimbe Ivan Smith<br>&amp; Tr. Nazimuli Jesca</p>
+          <p class="peek-date">20</p>
+          <p class="peek-month">JUNE 2026</p>
+        </div>
+      </div>
+      <div class="env-flap-wrap" id="envFlap">
+        <div class="env-flap"></div>
+      </div>
+      <div class="env-seal" id="envSeal">✦</div>
+    </div>
+    <p class="tap-hint" id="tapHint">— Tap to open —</p>
+  </div>`;
+}
+
+function escHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+let opened=false;
+function openEnv(){
+  if(opened) return;
+  opened=true;
+  document.getElementById('envFlap').classList.add('open');
+  document.getElementById('envSeal').style.cssText='opacity:0;transform:translateX(-50%) scale(0.8)';
+  document.getElementById('tapHint').style.opacity='0';
+  setTimeout(()=>{ document.getElementById('peekCard').classList.add('rising'); },700);
+  setTimeout(()=>{
+    const name=params.get('g');
+    document.getElementById('envStage').style.display='none';
+    showFullCard(name);
+  },2200);
+}
+
+function showFullCard(name){
+  const div=document.createElement('div');
+  div.className='full-card';
+  div.innerHTML=`
+  <div class="card-inner">
+    <div class="c tl"></div><div class="c tr"></div>
+    <div class="c bl"></div><div class="c br"></div>
+
+    <div class="medical-badge">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+        <circle cx="22" cy="22" r="20" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/>
+        <rect x="20" y="9" width="4" height="26" rx="2" fill="#c9a84c" opacity="0.55"/>
+        <rect x="9" y="20" width="26" height="4" rx="2" fill="#c9a84c" opacity="0.55"/>
+        <circle cx="22" cy="22" r="3.5" fill="#0d1528" stroke="#c9a84c" stroke-width="0.8"/>
+      </svg>
+    </div>
+
+    <p class="sub-text">The Family of the <strong>Late Mr. Sam Kirembwe</strong></p>
+    <p class="sub-text">of Kasangati, with hearts full of thanksgiving,</p>
+
+    <div class="divider">· · · · ·</div>
+
+    <p class="welcome-text">welcomes you to celebrate</p>
+    <p class="celebrate-text">THE GRADUATION</p>
+    <p class="of-text">of their Son and Daughter</p>
+
+    <div class="grad-block">
+      <p class="grad-name">Dr. Nsimbe Ivan Smith</p>
+      <p class="grad-deg">Bachelor of Medicine and Surgery</p>
+    </div>
+    <p class="and-sep">and</p>
+    <div class="grad-block" style="margin-bottom:0;">
+      <p class="grad-name">Tr. Nazimuli Jesca</p>
+      <p class="grad-deg">Bachelor of Arts in Education</p>
+    </div>
+
+    <div class="date-section">
+      <p class="join-text">Join us on</p>
+      <p class="date-big">20</p>
+      <p class="date-month-yr">June 2026</p>
+      <p class="date-time">1:00 pm — 6:00 pm</p>
+    </div>
+
+    <div class="venue-section">
+      <p class="venue-lbl">Venue</p>
+      <p class="venue-name">Adonai Guest House, Muyenga</p>
+    </div>
+
+    <div class="verse-block">
+      "Not to us, O Lord, not to us, but to your name give glory,<br>
+      for the sake of your steadfast love and your faithfulness."
+      <span class="verse-ref">— Psalm 115:1</span>
+    </div>
+
+    <div class="guest-section">
+      <p class="guest-lbl">This Invitation is Prepared for</p>
+      <p class="guest-name">${escHtml(name)}</p>
+    </div>
+
+    <div class="confirm-section">
+      <p class="confirm-lbl">Kindly Confirm Attendance</p>
+      <div class="contacts">
+        <div class="contact">
+          <p class="con-name">Ivan</p>
+          <p class="con-num">0708 388 040</p>
+        </div>
+        <div class="contact">
+          <p class="con-name">Jesca</p>
+          <p class="con-num">0709 260 110</p>
+        </div>
+        <div class="contact">
+          <p class="con-name">Mr. Edwine Muyise</p>
+          <p class="con-num">0702 291 444</p>
+        </div>
+        <div class="contact">
+          <p class="con-name">Mrs. Lubwama Robinah</p>
+          <p class="con-num">0772 509 798</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-notes">
+      <p class="invite-only">· Invite Only ·</p>
+      <p class="children-note">Children are loved but not invited</p>
+    </div>
+  </div>`;
+
+  scene.appendChild(div);
+  requestAnimationFrame(()=>div.classList.add('visible'));
+}
+</script>
+</body>
+</html>
